@@ -1,0 +1,6 @@
+,peso,peso,peso,peso,firmeza,firmeza,firmeza,firmeza,brix,brix,brix,brix,acidez,acidez,acidez,acidez,ratio_real,ratio_real,ratio_real,ratio_real
+,count,mean,std,median,count,mean,std,median,count,mean,std,median,count,mean,std,median,count,mean,std,median
+tipo_fruto,,,,,,,,,,,,,,,,,,,,
+CIRUELA,5776,61.23,31.55,53.59,5717,4.48,2.04,4.35,5494,16.5,3.49,15.5,5363,1.0,0.61,0.88,5359,23.99,19.46,18.48
+DAMASCO,115,94.63,30.9,96.69,115,4.2,2.01,4.35,108,15.93,3.52,15.1,107,2.75,14.96,1.26,107,13.69,5.53,12.53
+PLUMCOT,39,58.24,26.77,53.51,39,4.33,2.23,3.5,31,16.28,3.2,14.6,31,1.22,0.55,1.17,31,16.05,7.52,16.06
