@@ -5,11 +5,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# 1. Cargar datos usando Path
+# Datos 
 ruta_csv = Path("datos_cosecha.csv")
 df = pd.read_csv(ruta_csv)
 
-# 2. Eliminar columnas vacías 'Unnamed' y renombrar
+# Eliminar columnas vacías y renombrar
 df = df.loc[:, ~df.columns.str.startswith("Unnamed")].copy()
 df = df.rename(columns={
     "Código Fruto": "codigo_fruto",
@@ -23,7 +23,7 @@ df = df.rename(columns={
     "RATIO BRIX/AC": "ratio_excel"
 })
 
-# 3. Limpiar texto y extraer bloque con RegEx (manejando nulos correctamente)
+#Limpiar texto y extraer bloque
 df["tipo_fruto"] = df["tipo_fruto"].fillna("").astype(str).str.strip().str.upper()
 df["tipo_fruto"] = df["tipo_fruto"].replace({"CIRUELO": "CIRUELA", "PLUM COT": "PLUMCOT", "": np.nan})
 
@@ -37,7 +37,7 @@ def extraer_bloque(val):
 
 df["bloque"] = df["codigo_fruto"].apply(extraer_bloque)
 
-# 4. Convertir columnas a números y calcular variables con NumPy
+# Columnas a números y calcular variables con NumPy
 df["ratio_excel"] = df["ratio_excel"].astype(str).str.replace("..", ".", regex=False)
 for col in ["peso", "firmeza_b", "firmeza_a", "brix", "acidez", "ratio_excel"]:
     df[col] = pd.to_numeric(df[col], errors="coerce")
@@ -46,7 +46,7 @@ df["firmeza"] = np.nanmean(df[["firmeza_a", "firmeza_b"]], axis=1)
 df["ratio_real"] = np.where(df["acidez"] > 0, df["brix"] / df["acidez"], np.nan)
 df = df.dropna(subset=["tipo_fruto"])
 
-# 5. Guardar datos limpios y tabla resumen
+# Datos limpios y tabla resumen
 df.to_csv("datos_cosecha_limpios.csv", index=False)
 variables = ["peso", "firmeza", "brix", "acidez", "ratio_real"]
 resumen = df.groupby("tipo_fruto")[variables].agg(["count", "mean", "std", "median"]).round(2)
@@ -54,7 +54,7 @@ resumen.to_csv("resumen_estadistico.csv")
 print("\n--- RESUMEN ESTADÍSTICO POR ESPECIE ---")
 print(resumen)
 
-# 6. Generar gráficos
+# Gráficos
 sns.set_theme(style="whitegrid")
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 sns.boxplot(data=df, x="tipo_fruto", y="peso", hue="tipo_fruto", ax=axes[0], palette="Set2", legend=False)
